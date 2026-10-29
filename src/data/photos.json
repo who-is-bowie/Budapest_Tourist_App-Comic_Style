@@ -1,0 +1,142 @@
+{
+ "buda-castle": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Budav%C3%A1ri_Palota%2C_ABCDEF_%C3%A9p%C3%BClet.jpg/500px-Budav%C3%A1ri_Palota%2C_ABCDEF_%C3%A9p%C3%BClet.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Buda_Castle",
+  "title": "Buda Castle"
+ },
+ "fishermans-bastion": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Hal%C3%A1szb%C3%A1stya_2017.jpg/500px-Hal%C3%A1szb%C3%A1stya_2017.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Fisherman's_Bastion",
+  "title": "Fisherman's Bastion"
+ },
+ "matthias-church": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/MatyasTemplomFotoThalerTamas20162.JPG/500px-MatyasTemplomFotoThalerTamas20162.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Matthias_Church",
+  "title": "Matthias Church"
+ },
+ "citadella": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Citadella_-_Budapest.jpg/500px-Citadella_-_Budapest.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Citadella",
+  "title": "Citadella"
+ },
+ "gellert-baths": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/Budapest%2C_Gell%C3%A9rt_f%C3%BCrd%C5%91.jpg/500px-Budapest%2C_Gell%C3%A9rt_f%C3%BCrd%C5%91.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Gell%C3%A9rt_Baths",
+  "title": "Gellért Baths"
+ },
+ "rudas-baths": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Rudas_gyogyfurdo_P7290076-1000.jpg/500px-Rudas_gyogyfurdo_P7290076-1000.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Rudas_Baths",
+  "title": "Rudas Baths"
+ },
+ "cave-church": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/IMG_0291_-_Hungary%2C_Buda_-_Gell%C3%A9rt_Hill_Cave_%28Szent_Gell%C3%A9rt_t%C3%A9r%29.JPG/500px-IMG_0291_-_Hungary%2C_Buda_-_Gell%C3%A9rt_Hill_Cave_%28Szent_Gell%C3%A9rt_t%C3%A9r%29.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Gell%C3%A9rt_Hill_Cave",
+  "title": "Gellért Hill Cave"
+ },
+ "chain-bridge": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Sz%C3%A9chenyi_Chain_Bridge_in_Budapest_at_night.jpg/500px-Sz%C3%A9chenyi_Chain_Bridge_in_Budapest_at_night.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Sz%C3%A9chenyi_Chain_Bridge",
+  "title": "Széchenyi Chain Bridge"
+ },
+ "elizabeth-bridge": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Elisabeth_Bridge_Budapest.jpg/500px-Elisabeth_Bridge_Budapest.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Elisabeth_Bridge_(Budapest)",
+  "title": "Elisabeth Bridge (Budapest)"
+ },
+ "liberty-bridge": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/Szabads%C3%A1g_h%C3%ADd_Budapest_September_2013.JPG/500px-Szabads%C3%A1g_h%C3%ADd_Budapest_September_2013.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Liberty_Bridge_(Budapest)",
+  "title": "Liberty Bridge (Budapest)"
+ },
+ "margaret-bridge": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Margithidszigettel.jpg/500px-Margithidszigettel.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Margaret_Bridge",
+  "title": "Margaret Bridge"
+ },
+ "gul-baba": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Gul_Baba.JPG/500px-Gul_Baba.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/G%C3%BCl_Baba",
+  "title": "Gül Baba"
+ },
+ "parliament": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Hungarian_Parliament_Building_from_across_the_Danube%2C_2025-01-11.jpg/500px-Hungarian_Parliament_Building_from_across_the_Danube%2C_2025-01-11.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Hungarian_Parliament_Building",
+  "title": "Hungarian Parliament Building"
+ },
+ "shoes-danube": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Shoes_Danube_Promenade_IMGP1297.jpg/500px-Shoes_Danube_Promenade_IMGP1297.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Shoes_on_the_Danube_Bank",
+  "title": "Shoes on the Danube Bank"
+ },
+ "basilica": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/Budapest_Szent_Istvan_Bazilika_R01.jpg/500px-Budapest_Szent_Istvan_Bazilika_R01.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/St._Stephen's_Basilica",
+  "title": "St. Stephen's Basilica"
+ },
+ "opera": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Opera_blue.jpg/500px-Opera_blue.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Hungarian_State_Opera_House",
+  "title": "Hungarian State Opera House"
+ },
+ "synagogue": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Synagogue-Budapest.jpg/500px-Synagogue-Budapest.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Doh%C3%A1ny_Street_Synagogue",
+  "title": "Dohány Street Synagogue"
+ },
+ "market-hall": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/VasarcsarnokFotoThalerTamas.JPG/500px-VasarcsarnokFotoThalerTamas.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Great_Market_Hall",
+  "title": "Great Market Hall"
+ },
+ "vaci-utca": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Vaci_utca_street_sign-Budapest.jpg/500px-Vaci_utca_street_sign-Budapest.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/V%C3%A1ci_Street",
+  "title": "Váci Street"
+ },
+ "vorosmarty": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Voeroesmartyter-budapest.jpg/500px-Voeroesmartyter-budapest.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/V%C3%B6r%C3%B6smarty_t%C3%A9r",
+  "title": "Vörösmarty tér"
+ },
+ "gerbeaud": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Cafe_Gerbeaud_01.JPG/500px-Cafe_Gerbeaud_01.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Caf%C3%A9_Gerbeaud",
+  "title": "Café Gerbeaud"
+ },
+ "new-york-cafe": {
+  "src": "https://thumb.wikimedia.org/wikipedia/en/thumb/5/58/Anantara_New_York_Palace_Budapest_Hotel.png/500px-Anantara_New_York_Palace_Budapest_Hotel.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Anantara_New_York_Palace_Budapest_Hotel",
+  "title": "Anantara New York Palace Budapest Hotel"
+ },
+ "szimpla": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Szimpla_Kert_Trabant.jpg/500px-Szimpla_Kert_Trabant.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Szimpla_Kert",
+  "title": "Szimpla Kert"
+ },
+ "house-of-terror": {
+  "src": "https://upload.wikimedia.org/wikipedia/en/5/5c/Logo-of-museum.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "page": "https://en.wikipedia.org/wiki/House_of_Terror",
+  "title": "House of Terror"
+ },
+ "liberty-square": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Szabads%C3%A1g_t%C3%A9r_-_Budapest.jpg/500px-Szabads%C3%A1g_t%C3%A9r_-_Budapest.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Liberty_Square_(Budapest)",
+  "title": "Liberty Square (Budapest)"
+ },
+ "heroes-square": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/HUN-2015-Budapest-Heroes%E2%80%99_Square.jpg/500px-HUN-2015-Budapest-Heroes%E2%80%99_Square.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Heroes'_Square_(Budapest)",
+  "title": "Heroes' Square (Budapest)"
+ },
+ "vajdahunyad-castle": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Vajdahunyad_v%C3%A1ra_Budapest_September_2013.jpg/500px-Vajdahunyad_v%C3%A1ra_Budapest_September_2013.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Vajdahunyad_Castle",
+  "title": "Vajdahunyad Castle"
+ },
+ "szechenyi-baths": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Budapest_Sz%C3%A9chenyi_Baths_R02.jpg/500px-Budapest_Sz%C3%A9chenyi_Baths_R02.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Sz%C3%A9chenyi_thermal_bath",
+  "title": "Széchenyi thermal bath"
+ }
+}

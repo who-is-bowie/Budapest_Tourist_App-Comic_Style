@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffe45e">
+  <title>Budapest Tour Planner</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>try { if (localStorage.getItem('budapest-tour-night') === '1') document.documentElement.dataset.theme = 'night'; } catch (e) { /* storage unavailable */ }</script>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#map">Skip to map</a>
+  <div id="app">
+    <aside id="menu" aria-label="Tour planner">
+      <button id="sheet-handle" aria-label="Expand or collapse the panel" aria-expanded="true"><span></span></button>
+      <header>
+        <div class="brand">
+          <span class="mark" aria-hidden="true">B</span>
+          <div>
+            <h1>Budapest <span>Tour Planner</span></h1>
+            <p>Pick places or start from a ready-made route.</p>
+          </div>
+        </div>
+      </header>
+      <nav id="tabs" role="tablist" aria-label="Sections">
+        <button role="tab" id="tab-explore" aria-controls="pane-explore" data-tab="explore" class="active"><i aria-hidden="true" data-g="binoculars"></i>Explore</button>
+        <button role="tab" id="tab-routes" aria-controls="pane-routes" data-tab="routes"><i aria-hidden="true" data-g="route"></i>Routes</button>
+        <button role="tab" id="tab-tour" aria-controls="pane-tour" data-tab="tour"><i aria-hidden="true" data-g="pin"></i>My tour <b id="tour-count">0</b></button>
+      </nav>
+      <section id="pane-explore" class="pane active" role="tabpanel" aria-labelledby="tab-explore">
+        <div id="sights-wrap">
+          <div class="sec-head"><h2>Top sights in 3D</h2><span>Tap to explore</span></div>
+          <div id="sights" role="group" aria-label="Landmarks with 3D models"></div>
+        </div>
+        <div id="chips" role="group" aria-label="Filter by type"></div>
+        <div class="search-wrap">
+          <input id="search" type="search" placeholder="Search places…" autocomplete="off" aria-label="Search places">
+          <button id="search-clear" aria-label="Clear search" hidden>×</button>
+        </div>
+        <div id="result-count" aria-live="polite"></div>
+        <ul id="place-list" class="list"></ul>
+        <p id="credit" class="credit" hidden>Ratings and review counts: Google</p>
+      </section>
+      <section id="pane-routes" class="pane" role="tabpanel" aria-labelledby="tab-routes"><div id="route-list"></div></section>
+      <section id="pane-tour" class="pane" role="tabpanel" aria-labelledby="tab-tour"><div id="tour"></div></section>
+    </aside>
+    <main id="map-wrap">
+      <div id="map" aria-label="Map of Budapest"></div>
+ <button id="toggle3d" class="fab fab3d" aria-pressed="true" aria-label="Show 3D landmarks on the map" title="3D landmarks on/off"><i data-g="landmark"></i></button>
+      <button id="night" class="fab fabnight" aria-pressed="false" aria-label="Switch to night mode" title="Night mode">🌙</button>
+      <button id="recenter" class="fab" aria-label="Reset the map view" title="Reset view">⌂</button>
+      <div id="hint" hidden>
+        <span><b>Tip</b> Tap a pin or a building. Gold-ringed pins have a <b class="g3">3D</b> model.</span>
+        <button id="hint-close" aria-label="Dismiss tip">Got it</button>
+      </div>
+      <div id="zap" hidden aria-hidden="true"><span>ZAP!</span></div>
+      <div id="card" hidden></div>
+      <div id="toast" role="status" aria-live="polite" hidden></div>
+    </main>
+  </div>
+
+  <!-- 3D landmark viewer (Three.js loads the first time it opens) -->
+  <div id="viewer" hidden role="dialog" aria-modal="true" aria-labelledby="v-title">
+    <div class="v-stage">
+      <div id="v-canvas"></div>
+      <header class="v-top">
+        <div class="v-head">
+          <span class="v-badge">3D</span>
+          <h2 id="v-title"></h2>
+          <p id="v-tag"></p>
+        </div>
+        <button id="v-close" class="v-icon" aria-label="Close 3D view">×</button>
+      </header>
+      <p id="v-hint"><span>☝︎</span> Drag to rotate · scroll or pinch to zoom · double-click to reset</p>
+      <footer class="v-bottom">
+        <div class="v-info">
+          <p id="v-blurb"></p>
+          <ul id="v-facts" aria-label="Quick facts"></ul>
+        </div>
+        <div class="v-ctl">
+          <div class="v-nav">
+            <button id="v-prev" class="v-icon" aria-label="Previous landmark">‹</button>
+            <span id="v-count" aria-live="polite"></span>
+            <button id="v-next" class="v-icon" aria-label="Next landmark">›</button>
+          </div>
+          <div id="v-tod" role="radiogroup" aria-label="Time of day">
+            <button role="radio" data-mood="day" aria-checked="false">☀️ Day</button>
+            <button role="radio" data-mood="dusk" aria-checked="true" class="on">🌇 Dusk</button>
+            <button role="radio" data-mood="night" aria-checked="false">🌙 Night</button>
+          </div>
+          <div class="v-acts">
+            <button id="v-add" class="btn">+ Add to tour</button>
+            <button id="v-map" class="btn ghost">Show on map</button>
+            <button id="v-reset" class="btn ghost" aria-label="Reset camera">↺</button>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
