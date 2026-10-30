@@ -138,5 +138,110 @@
   "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Budapest_Sz%C3%A9chenyi_Baths_R02.jpg/500px-Budapest_Sz%C3%A9chenyi_Baths_R02.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "page": "https://en.wikipedia.org/wiki/Sz%C3%A9chenyi_thermal_bath",
   "title": "Széchenyi thermal bath"
+ },
+ "petofi-bridge": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Budapest_Petofi_Bridge.jpg/500px-Budapest_Petofi_Bridge.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Pet%C5%91fi_Bridge",
+  "title": "Petőfi Bridge"
+ },
+ "rakoczi-bridge": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/L%C3%A1gym%C3%A1nyosi_Bridge_at_night.jpg/500px-L%C3%A1gym%C3%A1nyosi_Bridge_at_night.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/R%C3%A1k%C3%B3czi_Bridge",
+  "title": "Rákóczi Bridge"
+ },
+ "national-museum": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Magyar_Nemzeti_M%C3%BAzeum.jpg/500px-Magyar_Nemzeti_M%C3%BAzeum.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Hungarian_National_Museum",
+  "title": "Hungarian National Museum"
+ },
+ "academy-of-sciences": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/Budapest%2C_Magyar_Tudom%C3%A1nyos_Akad%C3%A9mia_24.jpeg/500px-Budapest%2C_Magyar_Tudom%C3%A1nyos_Akad%C3%A9mia_24.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Hungarian_Academy_of_Sciences",
+  "title": "Hungarian Academy of Sciences"
+ },
+ "gresham-palace": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Gresham_Palace_-_Stierch_01.jpg/500px-Gresham_Palace_-_Stierch_01.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Gresham_Palace",
+  "title": "Gresham Palace"
+ },
+ "vigado": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Bp-vigado.jpg/500px-Bp-vigado.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Vigad%C3%B3_of_Pest",
+  "title": "Vigadó of Pest"
+ },
+ "sandor-palace": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/S%C3%A1ndor-palota_naps%C3%BCt%C3%A9sben.jpg/500px-S%C3%A1ndor-palota_naps%C3%BCt%C3%A9sben.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/S%C3%A1ndor_Palace",
+  "title": "Sándor Palace"
+ },
+ "matthias-fountain": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/M%C3%A1ty%C3%A1s_k%C3%BAt.JPG/500px-M%C3%A1ty%C3%A1s_k%C3%BAt.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Matthias_Fountain",
+  "title": "Matthias Fountain"
+ },
+ "hospital-in-the-rock": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Sz_bejarat.jpg/500px-Sz_bejarat.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Hospital_in_the_Rock",
+  "title": "Hospital in the Rock"
+ },
+ "funicular": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Budapest_Funicular_R01.jpg/500px-Budapest_Funicular_R01.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Budapest_Castle_Hill_Funicular",
+  "title": "Budapest Castle Hill Funicular"
+ },
+ "zero-km": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/0_km_monument_Budapest.JPG/500px-0_km_monument_Budapest.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Zero_Kilometre_Stone",
+  "title": "Zero Kilometre Stone"
+ },
+ "fine-arts-museum": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Budapest_Fine_Arts_Museum_R01.jpg/500px-Budapest_Fine_Arts_Museum_R01.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Museum_of_Fine_Arts_(Budapest)",
+  "title": "Museum of Fine Arts (Budapest)"
+ },
+ "liszt-academy": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Liszt_Ferenc_Zenem%C5%B1v%C3%A9szeti_Egyetem_2013-ban_fel%C3%BAj%C3%ADtott_homlokzata.JPG/500px-Liszt_Ferenc_Zenem%C5%B1v%C3%A9szeti_Egyetem_2013-ban_fel%C3%BAj%C3%ADtott_homlokzata.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Franz_Liszt_Academy_of_Music",
+  "title": "Franz Liszt Academy of Music"
+ },
+ "rumbach-synagogue": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Rumbach_zsinagoga_P8050091.jpg/500px-Rumbach_zsinagoga_P8050091.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Rumbach_Street_Synagogue",
+  "title": "Rumbach Street Synagogue"
+ },
+ "applied-arts-museum": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Museum_of_Applied_Arts._Main_facade_from_south._BudapestDSCN3639.jpg/500px-Museum_of_Applied_Arts._Main_facade_from_south._BudapestDSCN3639.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Museum_of_Applied_Arts_(Budapest)",
+  "title": "Museum of Applied Arts (Budapest)"
+ },
+ "mupa": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Muveszetek-palotaja-P5120705.jpg/500px-Muveszetek-palotaja-P5120705.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/M%C3%BCpa_Budapest",
+  "title": "Müpa Budapest"
+ },
+ "national-theatre": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/National_Theatre%2C_Budapest.jpg/500px-National_Theatre%2C_Budapest.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/National_Theatre_(Budapest)",
+  "title": "National Theatre (Budapest)"
+ },
+ "keleti-station": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/14-05-06-budapest-RalfR-11.jpg/500px-14-05-06-budapest-RalfR-11.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Budapest_Keleti_station",
+  "title": "Budapest Keleti station"
+ },
+ "nyugati-station": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Nyugati_p%C3%A1lyaudvar%2C_Budapest.jpg/500px-Nyugati_p%C3%A1lyaudvar%2C_Budapest.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Budapest_Nyugati_station",
+  "title": "Budapest Nyugati station"
+ },
+ "ethnography-museum": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/N%C3%A9prajzi_M%C3%BAzeum_%2840%29.jpg/500px-N%C3%A9prajzi_M%C3%BAzeum_%2840%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Museum_of_Ethnography_(Budapest)",
+  "title": "Museum of Ethnography (Budapest)"
+ },
+ "vienna-gate": {
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Budavar-Becsikapu.jpg/500px-Budavar-Becsikapu.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "page": "https://en.wikipedia.org/wiki/Vienna_Gate",
+  "title": "Vienna Gate"
  }
 }
