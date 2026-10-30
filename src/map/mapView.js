@@ -367,7 +367,7 @@ async function loadLandmarks(all) {
 function applyHoles() {
   if (!landmarks) return;
   const on = landmarks.isEnabled();
-  const holes = on ? landmarks.footprints().map((f) => ['>', ['distance', { type: 'Point', coordinates: [f.lng, f.lat] }], f.r]) : [];
+  const holes = on ? landmarks.footprints().map((f) => ['>', ['distance', f.line ? { type: 'LineString', coordinates: f.line } : { type: 'Point', coordinates: [f.lng, f.lat] }], f.r]) : [];
   for (const id of ['building-3d', 'building']) {
     const conds = [baseFilters[id], ...holes].filter(Boolean);
     map.setFilter(id, conds.length > 1 ? ['all', ...conds] : conds[0] || null);

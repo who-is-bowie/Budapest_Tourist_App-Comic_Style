@@ -9,11 +9,14 @@ export const CATS = {
 };
 
 // Landmark kinds that are not a single building, so no footprint is highlighted
-export const NO_FOOTPRINT = new Set(['Bridge', 'Square', 'Memorial', 'Viewpoint', 'Monument', 'Shopping street']);
+export const NO_FOOTPRINT = new Set(['Bridge', 'Square', 'Memorial', 'Viewpoint', 'Monument', 'Shopping street', 'Funicular', 'Courtyard', 'Cave museum', 'Fountain', 'Statue']);
 // Larger complexes: highlight surrounding building parts too (metres)
 const COMPLEX_RADIUS = { 'buda-castle': 120, parliament: 70, 'szechenyi-baths': 90, 'gellert-baths': 45, 'fishermans-bastion': 0 };
 
-const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g, '');
+// A POI duplicates a curated stop when they share a distinctive name word ("Gerbeaud", "Szimpla"), or sit on the same spot in the same category
+const GENERIC = new Set(['cafe', 'kavehaz', 'cukraszda', 'restaurant', 'etterem', 'bistro', 'budapest', 'grand', 'house', 'hotel']);
+const words = (s) => new Set(s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').split(/[^a-z0-9]+/).filter((w) => w.length >= 4 && !GENERIC.has(w)));
+const sameName = (a, b) => { const A = words(a); return [...words(b)].some((w) => A.has(w)); };
 
 function inRing(ring, x, y) {
   let inside = false;
@@ -43,8 +46,10 @@ export async function loadData() {
   const withRating = (p) => (ratings[p.id] ? { ...p, rating: ratings[p.id].rating, reviews: ratings[p.id].reviews, ...(demo ? { demo: true } : {}) } : p);
   const curated = landmarks.filter((p) => inArea(area, p)).map((p) => withRating({ ...p, curated: true, radius: COMPLEX_RADIUS[p.id] ?? 25 }));
   const kept = new Set(curated.map((p) => p.id));
-  const extra = pois.filter((p) => inArea(area, p) && !curated.some((c) =>
-    haversine(c, p) < 60 && (c.category === p.category || norm(c.name).includes(norm(p.name)) || norm(p.name).includes(norm(c.name)))));
+  const extra = pois.filter((p) => inArea(area, p) && !curated.some((c) => {
+    const d = haversine(c, p);
+    return (d < 80 && sameName(c.name, p.name)) || (d < 20 && c.category === p.category);
+  }));
   const all = [...curated, ...extra.map((p) => withRating({ ...p, radius: 0, kind: p.detail || CATS[p.category].label.replace(/s$/, ''), blurb: '', duration: CATS[p.category].duration }))];
   const byId = Object.fromEntries(all.map((p) => [p.id, p]));
   const visiblePresets = presets

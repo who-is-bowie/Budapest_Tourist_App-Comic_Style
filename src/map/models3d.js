@@ -171,7 +171,15 @@ export function createLandmarkLayer(map, places, startNight = false) {
     setEnabled(on) { enabled = on; map.triggerRepaint(); },
     setNight(on) { mixTarget = on ? 1 : 0; map.triggerRepaint(); },
     isEnabled: () => enabled,
-    // centres and radii (m) of the real buildings to hide underneath each model
-    footprints: () => places.filter((p) => PLACEMENT[p.id]).map((p) => ({ lng: p.lng, lat: p.lat, r: PLACEMENT[p.id].hole ?? PLACEMENT[p.id].span * 0.42 })),
+    // where to hide the real buildings under each model: a circle of radius `hole` (m) round the pin, or by default a capsule
+    // (a segment along the model's long side, `r` either side of it) that covers the model's own footprint and little else
+    footprints: () => places.filter((p) => PLACEMENT[p.id]).map((p) => {
+      const place = PLACEMENT[p.id], e = entries.find((x) => x.id === p.id);
+      if (place.hole != null || !e) return { lng: p.lng, lat: p.lat, r: place.hole ?? place.span * 0.42 };
+      const [w, d] = e.plan.map((v) => v * e.mpu), half = Math.abs(w - d) / 2;
+      const brg = ((place.facing - (w >= d ? 90 : 0)) * Math.PI) / 180, mLat = 111320, mLng = mLat * Math.cos((e.lat * Math.PI) / 180);
+      const dE = (Math.sin(brg) * half) / mLng, dN = (Math.cos(brg) * half) / mLat;
+      return { line: [[e.lng - dE, e.lat - dN], [e.lng + dE, e.lat + dN]], r: Math.min(w, d) / 2 + 6 };
+    }),
   };
 }

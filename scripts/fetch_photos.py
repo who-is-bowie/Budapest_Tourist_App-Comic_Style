@@ -2,8 +2,9 @@
 """One-off builder: a Wikipedia thumbnail for every curated landmark -> src/data/photos.json.
 
 Wikipedia rate-limits bulk calls and some landmark names land on disambiguation pages, so
-titles are mapped explicitly (TITLES) and the result is committed. Re-run only when
-landmarks.json changes. Output: { id: { src, page, title } }; the app credits Wikipedia/Wikimedia Commons.
+titles are mapped explicitly (TITLES; a list is tried in order) and the result is committed. Re-run when
+landmarks.json changes: landmarks that already have a photo are kept, `--refresh` fetches them all again.
+Output: { id: { src, page, title } }; the app credits Wikipedia/Wikimedia Commons.
 """
 import json, subprocess, sys, time, urllib.parse
 from pathlib import Path
@@ -31,6 +32,27 @@ TITLES = {
     'house-of-terror': 'House of Terror',
     'shoes-danube': 'Shoes on the Danube Bank',
     'heroes-square': 'Heroes\' Square (Budapest)',
+    'national-museum': 'Hungarian National Museum',
+    'academy-of-sciences': 'Hungarian Academy of Sciences',
+    'vigado': ['Vigadó of Pest', 'Pesti Vigadó'],
+    'trinity-column': ['Holy Trinity Column (Budapest)', 'Holy Trinity Column, Budapest', 'Trinity Square (Budapest)'],
+    'funicular': ['Budapest Castle Hill Funicular', 'Budavári Sikló'],
+    'zero-km': ['Zero Kilometre Stone (Budapest)', 'Zero Kilometre Stone'],
+    'fine-arts-museum': 'Museum of Fine Arts (Budapest)',
+    'liszt-academy': 'Franz Liszt Academy of Music',
+    'gozsdu-udvar': ['Gozsdu udvar', 'Gozsdu Courtyard'],
+    'applied-arts-museum': 'Museum of Applied Arts (Budapest)',
+    'national-theatre': 'National Theatre (Budapest)',
+    'gellert-monument': ['Saint Gellért Monument', 'St. Gellért Monument', 'Statue of Saint Gerard (Budapest)'],
+    'keleti-station': 'Budapest Keleti station',
+    'nyugati-station': 'Budapest Nyugati station',
+    'ethnography-museum': ['Museum of Ethnography (Budapest)', 'Museum of Ethnography, Budapest'],
+    'anonymus-statue': ['Statue of Anonymus', 'Anonymus statue'],
+    'vienna-gate': ['Vienna Gate (Budapest)', 'Vienna Gate'],
+    'st-anne-church': ["St. Anne's Church, Budapest", "Saint Anne's Church, Budapest", "St. Anne's Church (Budapest)"],
+    'central-cafe': ['Central Café (Budapest)', 'Centrál Kávéház'],
+    'instant-fogas': ['Instant-Fogas'],
+    'mazel-tov': [],
 }
 
 
@@ -50,13 +72,20 @@ def summary(title):
 
 def main():
     landmarks = json.loads((ROOT / 'src/data/landmarks.json').read_text())
-    out = {}
+    path = ROOT / 'src/data/photos.json'
+    out = {} if '--refresh' in sys.argv or not path.exists() else json.loads(path.read_text())
     for p in landmarks:
-        d = summary(TITLES.get(p['id'], p['name']))
-        time.sleep(1.2)
-        thumb = (d or {}).get('thumbnail')
-        if not d or d.get('type') != 'standard' or not thumb:
-            print(f"  --  {p['id']:20} no usable article ({(d or {}).get('title')}, {(d or {}).get('type')})", file=sys.stderr)
+        if p['id'] in out:
+            continue
+        titles = TITLES.get(p['id'], p['name'])
+        for title in [titles] if isinstance(titles, str) else titles:
+            d = summary(title)
+            time.sleep(1.2)
+            thumb = (d or {}).get('thumbnail')
+            if d and d.get('type') == 'standard' and thumb:
+                break
+        else:
+            print(f"  --  {p['id']:20} no usable article", file=sys.stderr)
             continue
         src = thumb['source']
         # thumbnails are served at several widths; ask for a crisp one that suits a 2x card
@@ -65,7 +94,7 @@ def main():
             src = f"{parts[0]}/{WIDTH}px-{parts[1].split('px-', 1)[1]}"
         out[p['id']] = {'src': src, 'page': d['content_urls']['desktop']['page'], 'title': d['title']}
         print(f"  ok  {p['id']:20} {d['title']}")
-    (ROOT / 'src/data/photos.json').write_text(json.dumps(out, ensure_ascii=False, indent=1) + '\n')
+    path.write_text(json.dumps(out, ensure_ascii=False, indent=1) + '\n')
     print(f"{len(out)}/{len(landmarks)} landmarks have a photo")
 
 

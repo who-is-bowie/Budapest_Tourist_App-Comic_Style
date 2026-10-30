@@ -45,7 +45,8 @@ export const GLYPHS = {
 const LANDMARK_GLYPH = {
   Bridge: 'bridge', Church: 'church', 'Thermal bath': 'bath', Castle: 'castle', Market: 'market', Theatre: 'mask', Viewpoint: 'binoculars',
   Monument: 'obelisk', Memorial: 'shoes', Square: 'fountain', Synagogue: 'dome', Government: 'dome', 'Shopping street': 'bag',
-  'Historic café': 'coffee', 'Ruin bar': 'beer',
+  'Historic café': 'coffee', 'Ruin bar': 'beer', Palace: 'castle', 'Concert hall': 'mask', Gallery: 'palette', Fountain: 'fountain', Statue: 'obelisk',
+  Courtyard: 'beer', Funicular: 'route', Station: 'route',
 };
 /** Inline SVG markup for a glyph key, for places that need an icon outside a sticker (tabs, chips, empty states). */
 export const glyphEl = (key, cls = 'glyph') => { const n = el('span', { class: cls }); n.innerHTML = GLYPHS[key]; return n; };

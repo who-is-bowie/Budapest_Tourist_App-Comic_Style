@@ -19,31 +19,36 @@ export const MODELS = {
   citadella:            { title: 'Citadella & Liberty Statue', tagline: 'Hilltop fortress with 360° views', accent: '#4f9a73', facts: ['Fortress 1851', 'Statue 1947', '14 m figure'] },
   'heroes-square':      { title: "Heroes' Square",         tagline: 'Millennium Monument between two museums', accent: '#d6483f', facts: ['Built 1896–1900', '36 m column', '7 chieftains, 14 kings'] },
   'vajdahunyad-castle': { title: 'Vajdahunyad Castle',     tagline: 'Four architectural styles around a lake', accent: '#e07a1f', facts: ['Built 1896', 'Romanesque to Baroque', 'Agricultural Museum'] },
+  'szechenyi-baths':    { title: 'Széchenyi Baths',        tagline: 'Neo-Baroque domes round steaming pools', accent: '#e0a526', facts: ['Opened 1913', '18 pools', 'Open all year'] },
 };
 
 export const has3D = (id) => id in MODELS;
 export const MODEL_IDS = Object.keys(MODELS);
 
-// How each model sits on the map. `shift` = [east, north] metres from the place's pin to the model's centre. `span` is the longest side of the structure itself, without its ground base, in metres (approximate published dimensions)
-// and `facing` the compass bearing of the front.
+// How each model sits on the map. The model's centre goes on the place's pin, which is the centre of the real footprint
+// (OpenStreetMap). `shift` = [east, north] metres from the pin to the model's centre. `span` is the longest side of the structure
+// itself, without its ground base, in metres (the OSM footprint's oriented bounding box), and `facing` the compass bearing of
+// its front (+z); the model's +x then points to facing - 90°. The real buildings under a model are hidden along its own footprint;
+// `hole` (m) hides a circle round the pin instead (the bridges, whose decks should not hide the bridgeheads).
 export const PLACEMENT = {
-  parliament:           { span: 268, facing: 90 },
-  'buda-castle':        { span: 304, facing: 90 },
-  'fishermans-bastion': { span: 120, facing: 90, hole: 60, foundation: 'round' },
-  'matthias-church':    { span: 62, facing: 232, hole: 35 },
-  'chain-bridge':       { span: 380, facing: 180, foundation: false },   // `foundation`: false = no terrace under it on the map, 'round' = circular
+  parliament:           { span: 264, facing: 96.5 },
+  'buda-castle':        { span: 320, facing: 56.5 },
+  'fishermans-bastion': { span: 151, facing: 69 },
+  'matthias-church':    { span: 61, facing: 248.5 },
+  'chain-bridge':       { span: 380, facing: 164, hole: 30, foundation: false },   // `foundation`: false = no terrace under it on the map, 'round' = circular
   // bridges: `span` is the deck's length; `facing` = real bearing of the Buda → Pest direction + 90°
-  'elizabeth-bridge':   { span: 378, facing: 153, hole: 30, foundation: false },
+  'elizabeth-bridge':   { span: 378, facing: 153.5, hole: 30, foundation: false },
   'liberty-bridge':     { span: 333, facing: 143, hole: 30, foundation: false },
   'petofi-bridge':      { span: 514, facing: 145, hole: 30, foundation: false },
-  'rakoczi-bridge':     { span: 494, facing: 182, hole: 30, foundation: false },
+  'rakoczi-bridge':     { span: 494, facing: 181.5, hole: 30, foundation: false },
   'margaret-bridge':    { span: 625, facing: 196, hole: 30, foundation: false, shift: [15, 67] },   // facing along the Buda end → Pest end chord; its bend sits north of the pin, which has to stay inside the visible districts
-  basilica:             { span: 88, facing: 140 },
-  opera:                { span: 85, facing: 150 },
-  synagogue:            { span: 55, facing: 160 },
-  'market-hall':        { span: 150, facing: 135 },
-  'gellert-baths':      { span: 150, facing: 90 },
-  citadella:            { span: 180, facing: 180, foundation: 'round' },
-  'heroes-square':      { span: 360, facing: 225, hole: 190 },
-  'vajdahunyad-castle': { span: 145, facing: 230, hole: 85 },   // `hole`: metres of real buildings to hide (default 0.42 × span)
+  basilica:             { span: 97, facing: 262 },
+  opera:                { span: 108, facing: 139 },
+  synagogue:            { span: 78, facing: 216 },
+  'market-hall':        { span: 183, facing: 321.5 },
+  'gellert-baths':      { span: 192, facing: 186 },
+  citadella:            { span: 236, facing: 184.5 },
+  'heroes-square':      { span: 360, facing: 225 },
+  'vajdahunyad-castle': { span: 145, facing: 230 },
+  'szechenyi-baths':    { span: 182, facing: 327 },
 };
