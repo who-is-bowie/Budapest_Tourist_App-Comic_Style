@@ -137,7 +137,7 @@ async function start() {
     setSuggestions(suggestions.map((s) => s.place));
     refreshMap();
     const open = !!anchor;
-    if (!open && chrome.cardOpen()) { chrome.closeCard().then(() => { if (!state.focus && !state.anchor) renderCard(cardEl, {}, actions); }); return; }
+    if (!open && chrome.cardVisible()) { chrome.closeCard().then(() => { if (!state.focus && !state.anchor) renderCard(cardEl, {}, actions); }); return; }
     renderCard(cardEl, { place, anchor: state.anchor, suggestions, inTour: place ? state.stops.includes(place.id) : false },
       { ...actions, closeCard: actions.closeCard });
     if (open) chrome.openCard();
@@ -220,7 +220,7 @@ function setupChrome(actions) {
   });
 
   const api = {
-    cardOpen: () => cardIsOpen,
+    cardVisible: () => phone.matches && !card.hidden,
     openCard() {
       if (!phone.matches) return;
       if (!cardIsOpen) {
@@ -230,7 +230,8 @@ function setupChrome(actions) {
       card.scrollTop = 0;
     },
     closeCard() {
-      if (!cardIsOpen) return Promise.resolve();
+      // already sliding away (dragged down): just wait for it to finish before the card is emptied
+      if (!cardIsOpen) return new Promise((res) => setTimeout(res, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 440));
       cardIsOpen = false; menuSheet.go(lastMenu);
       return cardSheet.to('closed');
     },
@@ -244,9 +245,10 @@ function setupChrome(actions) {
       if (cardIsOpen) cardSheet.refit(); else cardSheet.jump('closed');
       quiet = false;
       if (cardIsOpen) menuSheet.jump('hidden');
+      else if ((state.focus || state.anchor) && !card.hidden) api.openCard();   // came back to a phone width with a place still selected
     } else {
       menu.style.transform = ''; menu.style.transition = ''; card.style.transform = ''; card.style.transition = '';
-      cardIsOpen = false; setInset(0);
+      cardIsOpen = false; menuSheet.jump(lastMenu); setInset(0);
     }
   };
   placeTabs();

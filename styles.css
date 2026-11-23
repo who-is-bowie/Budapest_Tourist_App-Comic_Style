@@ -384,6 +384,7 @@ body.viewing { overflow: hidden; }
   #tabs b { position: absolute; top: 1px; left: calc(50% + 8px); min-width: 20px; font-size: 11px; line-height: 16px; }
 
   .pane { padding: 4px 14px 28px; }
+  .summary { gap: 8px; } .summary b { font-size: 19px; white-space: nowrap; }
   #menu:not([data-sheet="full"]) .pane { overflow-y: hidden; }        /* a partly open sheet moves instead of scrolling */
   #pane-explore.active { display: flex; flex-direction: column; overflow-y: auto; }
   #pane-explore .list { overflow: visible; flex: none; }
