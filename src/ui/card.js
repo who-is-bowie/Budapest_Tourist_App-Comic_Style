@@ -47,5 +47,6 @@ export function renderCard(root, { place, anchor, suggestions, inTour }, actions
         el('button', { class: 'go', 'aria-label': `Add ${s.name} to tour`, onclick: () => actions.toggleStop(s.id, { keepFocus: true }) }, 'Add')))]
     : [];
 
-  root.replaceChildren(el('button', { class: 'close', 'aria-label': 'Close', onclick: actions.closeCard }, '×'), ...head.filter(Boolean), ...sugg);
+  // the grab bar is the drag zone of the phone sheet; on desktop it only carries the close button
+  root.replaceChildren(el('div', { class: 'grab' }, el('span'), el('button', { class: 'close', 'aria-label': 'Close', onclick: actions.closeCard }, '×')), ...head.filter(Boolean), ...sugg);
 }

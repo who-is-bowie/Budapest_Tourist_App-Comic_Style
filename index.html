@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Budapest">
+  <meta name="description" content="Plan a walking tour of Budapest: pick places, see the route, explore landmarks in 3D.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
   <meta name="theme-color" content="#ffe45e">
   <title>Budapest Tour Planner</title>
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
@@ -32,6 +40,10 @@
           </div>
         </div>
       </header>
+      <div class="search-wrap">
+        <input id="search" type="search" enterkeyhint="search" placeholder="Search places…" autocomplete="off" autocorrect="off" aria-label="Search places">
+        <button id="search-clear" aria-label="Clear search" hidden>×</button>
+      </div>
       <nav id="tabs" role="tablist" aria-label="Sections">
         <button role="tab" id="tab-explore" aria-controls="pane-explore" data-tab="explore" class="active"><i aria-hidden="true" data-g="binoculars"></i>Explore</button>
         <button role="tab" id="tab-routes" aria-controls="pane-routes" data-tab="routes"><i aria-hidden="true" data-g="route"></i>Routes</button>
@@ -43,10 +55,6 @@
           <div id="sights" role="group" aria-label="Landmarks with 3D models"></div>
         </div>
         <div id="chips" role="group" aria-label="Filter by type"></div>
-        <div class="search-wrap">
-          <input id="search" type="search" placeholder="Search places…" autocomplete="off" aria-label="Search places">
-          <button id="search-clear" aria-label="Clear search" hidden>×</button>
-        </div>
         <div id="result-count" aria-live="polite"></div>
         <ul id="place-list" class="list"></ul>
         <p id="credit" class="credit" hidden>Ratings and review counts: Google</p>

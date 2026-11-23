@@ -314,6 +314,8 @@ export function createMap(container, h, data) {
     map = new maplibregl.Map({
       container, style: funStyle(structuredClone(rawStyle), T), center: [19.05, 47.47], zoom: 11.6, pitch: 0, bearing: 0,
       maxBounds: BOUNDS, minZoom: 11.5, maxPitch: 75, attributionControl: { compact: true },
+      // phones report a 3x pixel ratio; 2x looks the same on the print-comic style and costs far less GPU time
+      ...(mobile() ? { pixelRatio: Math.min(window.devicePixelRatio || 1, 2) } : {}),
       // MapLibre 4.7 loses the camera's look-at elevation on flyTo/easeTo, so the target would sit under the hills it is meant to show.
       // Re-assert it from the DEM on every camera update.
       ...(TERRAIN ? { transformCameraUpdate: (tr) => ({ elevation: map?.terrain ? map.terrain.getElevationForLngLatZoom(tr.center, Math.min(tr.tileZoom, DEM_MAXZOOM)) : 0 }) } : {}),
@@ -451,7 +453,8 @@ function refreshHighlights() {
 /* ---------- camera ---------- */
 
 const mobile = () => window.matchMedia('(max-width: 760px)').matches;
-const padding = () => ({ top: 60, left: 50, right: 50, bottom: mobile() ? 190 : 110 });
+// on a phone the sheet floats over the map, so frame places in the part still showing above it (window.sheetInset, set by main.js)
+const padding = () => ({ top: mobile() ? 90 : 60, left: mobile() ? 30 : 50, right: mobile() ? 30 : 50, bottom: mobile() ? (window.sheetInset || 0) + 30 : 110 });
 
 export function flyToPlace(p) {
   map.flyTo({ center: [p.lng, p.lat], zoom: Math.max(map.getZoom(), 16.2), pitch: 62, bearing: map.getBearing() + 12, duration: 1900, essential: true, padding: padding() });

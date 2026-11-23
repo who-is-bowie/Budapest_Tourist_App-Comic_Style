@@ -7,7 +7,8 @@ import { suggest } from './suggest/suggest.js';
 import { createMenu } from './ui/menu.js';
 import { renderCard } from './ui/card.js';
 import { setPhotos } from './ui/art.js';
-import { haversine } from './util.js';
+import { haversine, haptic } from './util.js';
+import { createSheet } from './ui/sheet.js';
 
 const DEFAULT_ROUTE_COLOR = '#1f6feb';
 
@@ -20,9 +21,17 @@ async function start() {
   const cardEl = document.getElementById('card');
   const toastEl = document.getElementById('toast');
   let toastTimer;
-  const toast = (msg) => {
-    toastEl.textContent = msg; toastEl.hidden = false;
-    clearTimeout(toastTimer); toastTimer = setTimeout(() => { toastEl.hidden = true; }, 3200);
+  const toast = (msg, { undo } = {}) => {
+    toastEl.replaceChildren(msg);
+    toastEl.classList.toggle('has-action', !!undo);
+    if (undo) {
+      const b = document.createElement('button');
+      b.textContent = 'Undo';
+      b.addEventListener('click', () => { undo(); toastEl.hidden = true; haptic(); });
+      toastEl.append(b);
+    }
+    toastEl.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => { toastEl.hidden = true; }, undo ? 5000 : 3200);
   };
 
   /* ---------- actions ---------- */
@@ -37,6 +46,15 @@ async function start() {
         focus: keepFocus || !has ? state.focus || id : state.focus });
       if (!has && fly) { set({ focus: id, anchor: null }); flyToPlace(byId[id]); }
       if (!has) toast(`Added ${byId[id].name}`);
+    },
+
+    /** remove from the tour with a way back */
+    removeStop(id) {
+      const at = state.stops.indexOf(id);
+      if (at < 0) return;
+      set({ stops: state.stops.filter((s) => s !== id), preset: null });
+      haptic();
+      toast(`Removed ${byId[id].name}`, { undo: () => { if (!state.stops.includes(id)) { const next = [...state.stops]; next.splice(Math.min(at, next.length), 0, id); set({ stops: next, preset: null }); } } });
     },
 
     focus(id, { fly = false } = {}) {
@@ -118,23 +136,39 @@ async function start() {
     const suggestions = anchor ? suggest(anchor, all, state.stops, { exclude: place?.id }) : [];
     setSuggestions(suggestions.map((s) => s.place));
     refreshMap();
+    const open = !!anchor;
+    if (!open && chrome.cardVisible()) { chrome.closeCard().then(() => { if (!state.focus && !state.anchor) renderCard(cardEl, {}, actions); }); return; }
     renderCard(cardEl, { place, anchor: state.anchor, suggestions, inTour: place ? state.stops.includes(place.id) : false },
       { ...actions, closeCard: actions.closeCard });
+    if (open) chrome.openCard();
+  }
+
+  /** which menu panes a state change touches (the list is the expensive one: ~120 rows) */
+  function menuParts(keys) {
+    const parts = new Set();
+    for (const k of keys) {
+      if (k === 'query' || k === 'filters') parts.add('list');
+      else if (k === 'stops') { parts.add('list'); parts.add('tour'); parts.add('routes'); }
+      else if (k === 'preset') parts.add('routes');
+      else if (k === 'legs') parts.add('tour');
+      else if (!['tab', 'focus', 'anchor'].includes(k)) return 'all';
+    }
+    return parts;
   }
 
   subscribe((patch) => {
     const keys = Object.keys(patch);
     const stopsChanged = keys.includes('stops');
-    menu.render(keys.every((k) => k === 'legs') ? 'tour' : keys.every((k) => k === 'tab') ? 'none' : 'all');
+    menu.render(menuParts(keys));
     if (keys.every((k) => k === 'legs')) return;
     if (keys.some((k) => ['stops', 'filters', 'focus', 'anchor'].includes(k))) refreshCard();
     if (stopsChanged) updateRoute(true);
   });
 
+  const chrome = setupChrome(actions);
   menu.render();
   refreshCard();
   updateRoute(false);
-  setupChrome(actions);
 
   // deep link: ?view=parliament opens that landmark's 3D model
   const deep = new URLSearchParams(location.search).get('view');
@@ -144,22 +178,95 @@ async function start() {
 /* ---------- small UX helpers ---------- */
 
 function setupChrome(actions) {
-  const menu = document.getElementById('menu'), handle = document.getElementById('sheet-handle');
+  const $ = (id) => document.getElementById(id);
+  const menu = $('menu'), handle = $('sheet-handle'), tabs = $('tabs'), card = $('card'), search = $('search');
   const phone = window.matchMedia('(max-width: 760px)');
+  const PEEK = 100;                       // px of sheet showing above the tab bar when peeking
   const order = ['peek', 'half', 'full'];
-  const setSheet = (name) => {
-    menu.dataset.sheet = name;
-    handle.setAttribute('aria-expanded', name !== 'peek');
-    const settle = () => window.budapestMap?.resize();
-    menu.addEventListener('transitionend', settle, { once: true }); setTimeout(settle, 450);
-  };
-  setSheet('half');
-  handle.addEventListener('click', () => setSheet(order[(order.indexOf(menu.dataset.sheet) + 1) % order.length]));
-  // choosing a tab or opening a place on a phone brings the sheet to a sensible height
-  document.getElementById('tabs').addEventListener('click', () => { if (phone.matches && menu.dataset.sheet === 'peek') setSheet('half'); });
-  subscribe((patch) => { if (phone.matches && ('focus' in patch) && state.focus && menu.dataset.sheet === 'full') setSheet('half'); });
+  const root = document.documentElement;
+  let lastMenu = 'half', cardIsOpen = false, quiet = false;
 
-  document.getElementById('recenter').addEventListener('click', goHome);
+  // on a phone the tab bar is the app's bottom bar, outside the sheet (which is transformed); on desktop it sits in the sidebar
+  const placeTabs = () => { if (phone.matches) document.body.append(tabs); else menu.insertBefore(tabs, menu.querySelector('.search-wrap')); };
+
+  /** tell the map how much of its bottom edge is covered, so flights frame places in the visible part */
+  const setInset = (visible) => {
+    const inset = phone.matches ? Math.round(Math.min(visible, innerHeight * 0.5) + tabs.offsetHeight) : 0;
+    window.sheetInset = inset; root.style.setProperty('--inset', `${inset}px`);
+  };
+
+  const menuSnaps = () => {
+    const H = menu.offsetHeight, room = H - tabs.offsetHeight;
+    return { full: 0, half: Math.max(0, room - Math.round(innerHeight * 0.46)), peek: Math.max(0, room - PEEK), hidden: H + 8 };
+  };
+  const menuSheet = createSheet(menu, {
+    snaps: menuSnaps, stops: order.slice().reverse(), initial: 'half', grab: '#sheet-handle, .search-wrap, header', active: () => phone.matches,
+    onSettle(name, pts) {
+      menu.setAttribute('aria-expanded', name !== 'peek'); handle.setAttribute('aria-expanded', name !== 'peek');
+      if (name === 'hidden') return;
+      lastMenu = name; if (!cardIsOpen) setInset(menu.offsetHeight - tabs.offsetHeight - pts[name]);
+      if (name === 'peek') search.blur();
+    },
+  });
+
+  const cardSnaps = () => { const H = card.offsetHeight; return { full: 0, mid: Math.max(0, H - Math.round(innerHeight * 0.44)), closed: H + 8 }; };
+  const cardSheet = createSheet(card, {
+    snaps: cardSnaps, stops: ['full', 'mid', 'closed'], initial: 'closed', grab: '.grab', active: () => phone.matches,
+    onSettle(name, pts) {
+      if (quiet) return;
+      if (name === 'closed') { if (cardIsOpen) { cardIsOpen = false; menuSheet.go(lastMenu); actions.closeCard(); } return; }
+      setInset(card.offsetHeight - pts[name]); haptic(5);
+    },
+  });
+
+  const api = {
+    cardVisible: () => phone.matches && !card.hidden,
+    openCard() {
+      if (!phone.matches) return;
+      if (!cardIsOpen) {
+        cardIsOpen = true; quiet = true; cardSheet.jump('closed'); quiet = false;
+        void card.offsetHeight; menuSheet.go('hidden'); cardSheet.go('mid');
+      }
+      card.scrollTop = 0;
+    },
+    closeCard() {
+      // already sliding away (dragged down): just wait for it to finish before the card is emptied
+      if (!cardIsOpen) return new Promise((res) => setTimeout(res, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 440));
+      cardIsOpen = false; menuSheet.go(lastMenu);
+      return cardSheet.to('closed');
+    },
+  };
+
+  const layout = () => {
+    placeTabs();
+    if (phone.matches) {
+      quiet = true;
+      menuSheet.refit();
+      if (cardIsOpen) cardSheet.refit(); else cardSheet.jump('closed');
+      quiet = false;
+      if (cardIsOpen) menuSheet.jump('hidden');
+      else if ((state.focus || state.anchor) && !card.hidden) api.openCard();   // came back to a phone width with a place still selected
+    } else {
+      menu.style.transform = ''; menu.style.transition = ''; card.style.transform = ''; card.style.transition = '';
+      cardIsOpen = false; menuSheet.jump(lastMenu); setInset(0);
+    }
+  };
+  placeTabs();
+  if (phone.matches) { menuSheet.jump('half'); }
+  phone.addEventListener('change', () => { layout(); window.budapestMap?.resize(); });
+  window.addEventListener('resize', () => { if (phone.matches) layout(); });
+
+  handle.addEventListener('click', () => menuSheet.go(order[(order.indexOf(menuSheet.name) + 1) % order.length]));
+  // choosing a tab brings the sheet up to a useful height, and leaves any open place card behind
+  tabs.addEventListener('click', () => {
+    if (!phone.matches) return;
+    haptic(6);
+    if (state.focus || state.anchor) actions.closeCard();
+    if (menuSheet.name === 'peek' || menuSheet.name === 'hidden') menuSheet.go('half');
+  });
+  search.addEventListener('focus', () => { if (phone.matches && menuSheet.name !== 'full') menuSheet.go('full'); });
+
+  $('recenter').addEventListener('click', goHome);
   const t3d = document.getElementById('toggle3d');
   t3d.addEventListener('click', () => {
     const on = setLandmarks3D(t3d.getAttribute('aria-pressed') !== 'true');
@@ -180,6 +287,8 @@ function setupChrome(actions) {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && document.getElementById('viewer').hidden && !document.getElementById('card').hidden) actions.closeCard();
   });
+
+  return api;
 }
 
 /** Night mode: a neon after-dark take on the comic look. The saved choice is applied before first paint by a script in index.html. */
