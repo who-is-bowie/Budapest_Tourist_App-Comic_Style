@@ -3,6 +3,7 @@ import { state } from '../state/store.js';
 import { el, fmtDist, fmtMin } from '../util.js';
 import { MODELS, MODEL_IDS, has3D } from '../model3d/registry.js';
 import { sticker, rating, photoOf, photoAt, glyphEl } from './art.js';
+import { swipeToRemove, reorderGrip } from './tourGestures.js';
 
 const CAT_GLYPH = { landmark: 'landmark', restaurant: 'cloche', bar: 'cocktail', cafe: 'coffee', shop: 'bag' };
 const $ = (id) => document.getElementById(id);
@@ -54,6 +55,7 @@ export function createMenu(data, actions) {
   function renderTabs() {
     document.querySelectorAll('#tabs button').forEach((b) => { const on = b.dataset.tab === state.tab; b.classList.toggle('active', on); b.setAttribute('aria-selected', on); });
     document.querySelectorAll('.pane').forEach((p) => p.classList.toggle('active', p.id === `pane-${state.tab}`));
+    $('menu').dataset.tab = state.tab;
     $('tour-count').textContent = state.stops.length; $('tour-count').dataset.n = state.stops.length;
     $('search-clear').hidden = !state.query;
     document.querySelectorAll('#chips .chip').forEach((c) => c.classList.toggle('on', state.filters[c.dataset.cat]));
@@ -106,10 +108,13 @@ export function createMenu(data, actions) {
     const approx = state.legs.some((l) => l.approx);
 
     const items = [];
+    const finePointer = window.matchMedia('(pointer: fine)').matches;
+    const rows = () => [...root.querySelectorAll('.stop')];
     stops.forEach((p, i) => {
       const cat = CATS[p.category];
-      items.push(el('div', {
-        class: 'stop', draggable: 'true', style: `--c:${cat.color}`,
+      const grip = el('button', { class: 'grip', 'aria-label': `Drag to reorder ${p.name}`, title: 'Drag to reorder' }, '⠿');
+      const row = el('div', {
+        class: 'stop', style: `--c:${cat.color}`, draggable: finePointer ? 'true' : false,
         ondragstart: (e) => { dragFrom = i; e.dataTransfer.effectAllowed = 'move'; },
         ondragover: (e) => { e.preventDefault(); e.currentTarget.classList.add('over'); },
         ondragleave: (e) => e.currentTarget.classList.remove('over'),
@@ -120,7 +125,12 @@ export function createMenu(data, actions) {
       el('span', { class: 'moves' },
         el('button', { class: 'mini', title: 'Move up', 'aria-label': `Move ${p.name} up`, disabled: i === 0, onclick: () => actions.move(i, i - 1) }, '▲'),
         el('button', { class: 'mini', title: 'Move down', 'aria-label': `Move ${p.name} down`, disabled: i === stops.length - 1, onclick: () => actions.move(i, i + 1) }, '▼')),
-      el('button', { class: 'mini', title: 'Remove', 'aria-label': `Remove ${p.name}`, onclick: () => actions.toggleStop(p.id) }, '×')));
+      el('button', { class: 'mini rm', title: 'Remove', 'aria-label': `Remove ${p.name}`, onclick: () => actions.removeStop(p.id) }, '×'),
+      grip);
+      const wrap = el('div', { class: 'stop-wrap' }, el('span', { class: 'del', 'aria-hidden': 'true' }, 'Remove'), row);
+      swipeToRemove(wrap, row, () => actions.removeStop(p.id));
+      reorderGrip(grip, row, $('pane-tour'), rows, i, (from, to) => actions.move(from, to));
+      items.push(wrap);
       const leg = state.legs[i];
       if (i < stops.length - 1) items.push(el('div', { class: 'leg' }, leg ? `🚶 ${fmtMin(leg.duration / 60)} · ${fmtDist(leg.distance)}${leg.approx ? ' (est.)' : ''}` : '🚶 calculating…'));
     });
@@ -141,11 +151,13 @@ export function createMenu(data, actions) {
   }
 
   return {
+    /** `what` is 'all' or a Set of 'list' | 'routes' | 'tour': only the parts whose data changed are rebuilt */
     render(what = 'all') {
+      const has = (k) => what === 'all' || what.has(k);
       renderTabs();
-      if (what === 'all' || what === 'list') renderExplore();
-      if (what === 'all' || what === 'routes') renderRoutes();
-      if (what === 'all' || what === 'tour') renderTour();
+      if (has('list')) renderExplore();
+      if (has('routes')) renderRoutes();
+      if (has('tour')) renderTour();
     },
   };
 }
